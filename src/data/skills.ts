@@ -51,6 +51,15 @@ export const skillCategories: SkillCategory[] = [
       { name: "Linux", icon: "🐧", level: 70 },
     ],
   },
+  {
+    category: "其他技能",
+    skills: [
+      { name: "网络爬虫", icon: "🕷️", level: 80 },
+      { name: "数据处理", icon: "📊", level: 85 },
+      { name: "视频剪辑", icon: "🎬", level: 75 },
+      { name: "数据可视化", icon: "📈", level: 70 },
+    ],
+  },
 ];
 
 // 扁平技能列表（用于 About 区进度条展示）
@@ -59,6 +68,8 @@ export const skills: Skill[] = [
   { name: "TypeScript", icon: "💙", level: 80 },
   { name: "React", icon: "⚛️", level: 80 },
   { name: "YOLOv8", icon: "👁️", level: 85 },
+  { name: "数据处理", icon: "📊", level: 85 },
+  { name: "网络爬虫", icon: "🕷️", level: 80 },
   { name: "C++", icon: "⚡", level: 75 },
   { name: "FastAPI", icon: "🚀", level: 80 },
   { name: "Tailwind CSS", icon: "🌊", level: 85 },

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { skills } from '@/data/skills'
+import { skills, skillCategories } from '@/data/skills'
 
 export default function About() {
   return (
@@ -66,7 +66,7 @@ export default function About() {
             <div className="p-6 bg-dark-surface rounded-xl border border-dark-border">
               <h3 className="text-xl font-semibold text-white mb-4">专业技能</h3>
               <div className="space-y-4">
-                {skills.slice(0, 5).map((skill) => (
+                {skills.slice(0, 8).map((skill) => (
                   <div key={skill.name}>
                     <div className="flex justify-between mb-2">
                       <span className="text-gray-300">{skill.name}</span>
@@ -83,6 +83,21 @@ export default function About() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* 其他技能标签展示 */}
+              <div className="mt-6 pt-6 border-t border-dark-border">
+                <h4 className="text-sm font-semibold text-gray-400 mb-3">其他技能</h4>
+                <div className="flex flex-wrap gap-2">
+                  {skillCategories[4].skills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className="px-3 py-1.5 bg-purple-500/10 border border-purple-500/30 rounded-lg text-sm text-purple-400 hover:bg-purple-500/20 transition-colors"
+                    >
+                      {skill.icon} {skill.name}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>
