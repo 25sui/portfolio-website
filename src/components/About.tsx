@@ -21,7 +21,8 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* 左列：个人简介 + 专业技能 */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -39,28 +40,6 @@ export default function About() {
                 熟练使用 Cursor、Trae、OpenCode、WorkBuddy、Claude Code 等 AI 辅助开发工具，
                 善于利用 AI 工具链提升开发效率，同时保持对核心算法和架构设计的深入理解。
               </p>
-            </div>
-
-            <div className="p-6 bg-dark-surface rounded-xl border border-dark-border">
-              <h3 className="text-xl font-semibold text-white mb-4">求职意向</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span className="text-purple-400">🎓</span>
-                  <span className="text-gray-300">目前状态：本科在读，即将升入大二（2029届）</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-purple-400">💼</span>
-                  <span className="text-gray-300">期望岗位：AI算法实习生 / 全栈开发实习生</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-purple-400">📍</span>
-                  <span className="text-gray-300">期望城市：大连 / 沈阳 / 广东 / 重庆 / 远程</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-purple-400">🤝</span>
-                  <span className="text-gray-300">同时也欢迎技术交流与合作</span>
-                </div>
-              </div>
             </div>
 
             <div className="p-6 bg-dark-surface rounded-xl border border-dark-border">
@@ -102,27 +81,50 @@ export default function About() {
             </div>
           </motion.div>
 
+          {/* 右列：求职意向 + 头像 */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative"
+            className="space-y-6"
           >
-            <div className="relative aspect-square max-w-md mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-2xl" />
-              <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-dark-border shadow-2xl bg-dark-surface flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
-                    <span className="text-4xl font-bold text-white">陈</span>
-                  </div>
-                  <p className="text-gray-400 text-sm">AI 工程师 / 全栈开发者</p>
+            <div className="p-6 bg-dark-surface rounded-xl border border-dark-border">
+              <h3 className="text-xl font-semibold text-white mb-4">求职意向</h3>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-purple-400">🎓</span>
+                  <span className="text-gray-300">目前状态：本科在读，即将升入大二（2029届）</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-purple-400">💼</span>
+                  <span className="text-gray-300">期望岗位：AI算法实习生 / 全栈开发实习生</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-purple-400">📍</span>
+                  <span className="text-gray-300">期望城市：大连 / 沈阳 / 广东 / 重庆 / 远程</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-purple-400">🤝</span>
+                  <span className="text-gray-300">同时也欢迎技术交流与合作</span>
                 </div>
               </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-xl">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-white">陈瑞</div>
-                  <div className="text-xs text-gray-300">AI 工程师</div>
+            </div>
+
+            {/* 头像卡片 */}
+            <div className="relative max-w-md mx-auto">
+              <div className="relative aspect-square w-full rounded-2xl overflow-hidden border-2 border-dark-border shadow-xl bg-dark-surface flex items-center justify-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-indigo-500/10" />
+                <div className="relative text-center">
+                  <div className="w-28 h-28 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-lg">
+                    <span className="text-5xl font-bold text-white">陈</span>
+                  </div>
+                  <p className="text-gray-300 text-base font-medium">陈瑞</p>
+                  <p className="text-gray-500 text-sm mt-1">AI 工程师 / 全栈开发者</p>
+                  <div className="mt-4 flex justify-center gap-2">
+                    <span className="px-3 py-1 bg-purple-500/10 border border-purple-500/30 rounded-full text-xs text-purple-400">数据科学</span>
+                    <span className="px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-xs text-indigo-400">全栈开发</span>
+                  </div>
                 </div>
               </div>
             </div>

@@ -8,7 +8,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/70 backdrop-blur-sm"
       onClick={onClose}
     >
       <motion.div
@@ -16,7 +16,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-dark-surface border border-dark-border rounded-2xl p-6"
+        className="relative w-full max-w-lg sm:max-w-lg max-h-[85vh] overflow-y-auto bg-dark-surface border border-dark-border rounded-2xl p-4 sm:p-6 mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 关闭按钮 */}
@@ -32,23 +32,23 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         <img
           src={project.image}
           alt={project.name}
-          className="w-full h-48 object-cover rounded-xl mb-5"
+          className="w-full h-40 sm:h-48 object-cover rounded-xl mb-4 sm:mb-5"
         />
 
         {/* 项目名称 */}
-        <h3 className="text-2xl font-bold text-white mb-3">{project.name}</h3>
+        <h3 className="text-xl sm:text-2xl font-bold text-white mb-3">{project.name}</h3>
 
         {/* 完整描述（无截断） */}
-        <p className="text-gray-300 leading-relaxed mb-5">{project.description}</p>
+        <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-4 sm:mb-5">{project.description}</p>
 
         {/* 技术栈 */}
-        <div className="mb-5">
+        <div className="mb-4 sm:mb-5">
           <h4 className="text-sm font-semibold text-gray-400 mb-2">技术栈</h4>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 bg-dark-background border border-dark-border rounded-full text-sm text-gray-300"
+                className="px-2 sm:px-3 py-1 bg-dark-background border border-dark-border rounded-full text-xs sm:text-sm text-gray-300"
               >
                 {tech}
               </span>
