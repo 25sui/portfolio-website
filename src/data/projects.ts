@@ -24,7 +24,7 @@ export const projects: Project[] = [
     name: "Circuit AI Studio",
     description:
       "基于 React 的电子仿真工具，集成 DeepSeek AI API，实现带3层JSON解析和降级策略的智能电路设计助手，支持 AI 驱动的原理图生成与仿真。",
-    image: "/Circuit AI Studio.png",
+    image: "/circuit-ai-studio.png",
     techStack: ["TypeScript", "React", "DeepSeek AI", "电路仿真", "FastAPI"],
     githubUrl: "https://github.com/25sui/circuit-ai-studio",
   },
@@ -33,7 +33,7 @@ export const projects: Project[] = [
     name: "HuiYan Traffic v6.0",
     description:
       "AI 智能交通视频分析系统，基于 YOLOv8 实现实时车辆检测与跟踪、交通流量统计、违章识别，支持多路视频流接入与可视化大屏展示。",
-    image: "/慧眼.png",
+    image: "/huiyan.png",
     techStack: ["Python", "YOLOv8", "OpenCV", "交通视频分析", "目标检测"],
     githubUrl: "https://github.com/25sui/huiyan-traffic",
   },
@@ -42,7 +42,7 @@ export const projects: Project[] = [
     name: "六子棋博弈系统",
     description:
       "计算机博弈赛六子棋赛道实现，基于 C++ 开发的高性能博弈引擎，实现 Alpha-Beta 剪枝搜索算法，支持多种开局库与评估函数优化。",
-    image: "/六子棋.png",
+    image: "/connect6.png",
     techStack: ["C++", "博弈算法", "Alpha-Beta剪枝", "AI", "计算机博弈"],
     githubUrl: "https://github.com/25sui/connect6",
   },
@@ -81,7 +81,7 @@ export const projects: Project[] = [
     name: "公交智能调度优化系统",
     description:
       "基于NSGA-II多目标遗传算法构建公交智能调度优化系统，通过LSTM深度学习模型实现客流预测，在降低乘客等待时间的同时减少运营碳排放。技术栈：LSTM预测 + NSGA-II多目标优化 + FastAPI后端服务 + Vue 3前端可视化，完整覆盖GTFS数据解析、模型训练、排班优化与交互展示全流程。",
-    image: "/公交智能调度优化系统.png",
+    image: "/bus-scheduling.png",
     techStack: ["Python", "PyTorch", "LSTM", "NSGA-II", "FastAPI", "Vue 3", "ECharts"],
     githubUrl: "https://github.com/25sui/bus-scheduling-optimization",
   },
