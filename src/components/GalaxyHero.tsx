@@ -259,11 +259,11 @@ export default function GalaxyHero() {
             </button>
           </div>
 
-          {/* 关于瑞仔：学校降级出现，不进首屏主视觉 */}
+          {/* 关于瑞仔：IP 叙事，不暴露真实学校/专业/年级 */}
           <div className="mt-7 pt-5 border-t border-white/10 text-xs text-white/55 leading-relaxed">
-            辽宁工程技术大学 · 数据科学与大数据技术 2029 届 · 大二在读
+            瑞仔 · AI 辅助开发探索者
             <br />
-            一个用 AI 辅助开发、把项目真实跑起来的实战派。
+            把想法变成能跑的项目，把踩坑过程变成可复用的经验。
           </div>
         </div>
         <p className="mt-4 text-center lg:text-left text-xs text-white/40">
