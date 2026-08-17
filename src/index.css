@@ -106,3 +106,17 @@ body {
   90%  { opacity: 0.5; }
   100% { transform: translateY(500%); opacity: 0; }
 }
+
+/* ===== 星河电台 · 音频与信号 ===== */
+@keyframes wave-bar {
+  0%, 100% { transform: scaleY(0.3); }
+  50%      { transform: scaleY(1); }
+}
+@keyframes signal-ring {
+  0%   { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+@keyframes knob-tick {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
