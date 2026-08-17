@@ -120,3 +120,21 @@ body {
   0%   { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* ===== 星链枢纽 · 节点与流光 ===== */
+@keyframes border-flow {
+  0%   { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+@keyframes gear-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes chart-grow {
+  0%   { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
+}
+@keyframes code-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
