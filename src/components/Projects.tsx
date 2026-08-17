@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { projects, type Project } from '@/data/projects'
+import { SectionShell, SectionTitle, glassCard } from '@/components/CosmicBits'
+
+const ACCENT = '#3B82F6' // 造物星域 · 星蓝
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
   return (
@@ -16,13 +19,13 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9, y: 20 }}
         transition={{ duration: 0.25, ease: 'easeOut' }}
-        className="relative w-full max-w-lg sm:max-w-lg max-h-[85vh] overflow-y-auto bg-dark-surface border border-dark-border rounded-2xl p-4 sm:p-6 mx-4"
+        className="relative w-full max-w-lg sm:max-w-lg max-h-[85vh] overflow-y-auto bg-[#0B1020]/95 border border-white/10 rounded-2xl p-4 sm:p-6 mx-4 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 关闭按钮 */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-dark-background/80 border border-dark-border text-gray-400 hover:text-white hover:border-purple-500/50 transition-all duration-200 text-lg"
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:border-blue-400/50 transition-all duration-200 text-lg"
           aria-label="关闭"
         >
           ×
@@ -43,12 +46,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 
         {/* 技术栈 */}
         <div className="mb-4 sm:mb-5">
-          <h4 className="text-sm font-semibold text-gray-400 mb-2">技术栈</h4>
+          <h4 className="text-sm font-semibold text-white/50 mb-2">技术栈</h4>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-2 sm:px-3 py-1 bg-dark-background border border-dark-border rounded-full text-xs sm:text-sm text-gray-300"
+                className="px-2 sm:px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs sm:text-sm text-white/60"
               >
                 {tech}
               </span>
@@ -74,7 +77,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
               href={project.demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl hover:from-purple-500 hover:to-indigo-500 transition-all duration-300 text-sm font-medium"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-xl hover:from-sky-400 hover:to-blue-500 transition-all duration-300 text-sm font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -98,7 +101,7 @@ function ProjectCard({ project }: { project: Project }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="group bg-dark-surface rounded-xl border border-dark-border overflow-hidden hover:border-purple-500/50 transition-all duration-300 cursor-pointer"
+        className={`group ${glassCard} overflow-hidden hover:border-blue-400/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)] transition-all duration-300 cursor-pointer`}
         onClick={() => setShowModal(true)}
       >
         <div className="relative overflow-hidden">
@@ -128,8 +131,8 @@ function ProjectCard({ project }: { project: Project }) {
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-500 hover:to-indigo-500 transition-colors text-sm"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-lg hover:from-sky-400 hover:to-blue-500 transition-colors text-sm"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -140,22 +143,22 @@ function ProjectCard({ project }: { project: Project }) {
           </div>
         </div>
         <div className="p-6">
-          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">
+          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-blue-300 transition-colors">
             {project.name}
           </h3>
-          <p className="text-gray-400 mb-4 line-clamp-2">{project.description}</p>
+          <p className="text-white/50 mb-4 line-clamp-2">{project.description}</p>
           <div className="flex flex-wrap gap-2">
             {project.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-3 py-1 bg-dark-background border border-dark-border rounded-full text-sm text-gray-400"
+                className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-sm text-white/55"
               >
                 {tech}
               </span>
             ))}
           </div>
           {/* 提示文字 */}
-          <p className="text-xs text-gray-500 mt-3">点击查看详情</p>
+          <p className="text-xs text-white/35 mt-3">点击查看详情</p>
         </div>
       </motion.div>
 
@@ -170,24 +173,15 @@ function ProjectCard({ project }: { project: Project }) {
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-24 bg-dark-surface">
+    <SectionShell id="zaowu" accent={ACCENT}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 rounded-full text-purple-400 text-sm mb-4">
-            项目展示
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">我的作品</h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
-              涵盖计算机视觉、数据科学、智能优化算法与全栈开发等多个方向。
-              以下是我独立完成或参与开发的项目，点击卡片查看详情。
-            </p>
-        </motion.div>
+        <SectionTitle
+          icon="🛠"
+          label="造物星域"
+          accent={ACCENT}
+          title="真实项目的实验记录"
+          desc="涵盖计算机视觉、数据科学、智能优化算法与全栈开发等多个方向。每一个都是「问题 → 做法 → 结果 → 踩坑」写成的实验记录，点击卡片查看详情。"
+        />
 
         <div className="grid md:grid-cols-2 gap-6">
           {projects.map((project) => (
@@ -195,6 +189,6 @@ export default function Projects() {
           ))}
         </div>
       </div>
-    </section>
+    </SectionShell>
   )
 }

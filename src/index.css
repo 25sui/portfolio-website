@@ -35,3 +35,41 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #764ba2 0%, #667eea 100%);
 }
+
+/* ===== 瑞仔宇宙 · 星系轨道动画 ===== */
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes orbit-spin-reverse {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+@keyframes star-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.9; }
+}
+
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  animation: orbit-spin linear infinite;
+  pointer-events: none;
+}
+.orbit-planet {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  animation: orbit-spin-reverse linear infinite;
+  pointer-events: auto;
+}
+.star-core {
+  animation: star-pulse 4s ease-in-out infinite;
+}

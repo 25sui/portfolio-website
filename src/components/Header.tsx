@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const navItems = [
-  { label: '首页', href: '#hero' },
-  { label: '关于我', href: '#about' },
-  { label: '项目', href: '#projects' },
-  { label: '联系', href: '#contact' },
+  { label: '奇点', href: '#qidian' },
+  { label: '造物星域', href: '#zaowu' },
+  { label: '航行星图', href: '#hangxing' },
+  { label: '星河电台', href: '#xinghe' },
+  { label: '星链枢纽', href: '#xinglian' },
+  { label: '宇宙通讯站', href: '#tongxun' },
 ]
 
 export default function Header() {
@@ -26,13 +28,13 @@ export default function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-dark-background/95 backdrop-blur-md border-b border-dark-border' : 'bg-transparent'
+        isScrolled ? 'bg-[#0B1020]/90 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-                    <a href="#hero" className="text-xl font-bold bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">
-            陈瑞
+                    <a href="#qidian" className="text-xl font-bold bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">
+            瑞仔宇宙
           </a>
 
           <nav className="hidden md:flex items-center space-x-8">
@@ -40,10 +42,10 @@ export default function Header() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-gray-300 hover:text-white transition-colors duration-300 relative group"
+                className="text-white/60 hover:text-white transition-colors duration-300 relative group"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-indigo-500 transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sky-400 to-blue-500 transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </nav>
@@ -69,7 +71,7 @@ export default function Header() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-dark-background/95 backdrop-blur-md border-b border-dark-border"
+          className="md:hidden bg-[#0B1020]/95 backdrop-blur-md border-b border-white/5"
         >
           <nav className="flex flex-col px-4 py-4 space-y-4">
             {navItems.map((item) => (
@@ -77,7 +79,7 @@ export default function Header() {
                 key={item.label}
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-gray-300 hover:text-white transition-colors duration-300 py-2"
+                className="text-white/60 hover:text-white transition-colors duration-300 py-2"
               >
                 {item.label}
               </a>

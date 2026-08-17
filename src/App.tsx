@@ -1,19 +1,23 @@
-import Header from '@/components/Header'
-import Hero from '@/components/Hero'
-import About from '@/components/About'
+import GalaxyHero from '@/components/GalaxyHero'
 import Projects from '@/components/Projects'
-import Contact from '@/components/Contact'
+import InProgress from '@/components/InProgress'
+import StarRadio from '@/components/StarRadio'
+import StarChain from '@/components/StarChain'
+import UniverseComm from '@/components/UniverseComm'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-dark-background">
+    <div className="min-h-screen bg-[#0B1020]">
       <Header />
       <main>
-        <Hero />
-        <About />
+        <GalaxyHero />
         <Projects />
-        <Contact />
+        <InProgress />
+        <StarRadio />
+        <StarChain />
+        <UniverseComm />
       </main>
       <Footer />
     </div>
