@@ -6,25 +6,32 @@ const ACCENT = '#34D399'
 
 const services = [
   {
-    title: 'AI 小程序 / 工具定制',
-    desc: '用 AI 辅助开发，把你的想法快速做成能用的小程序或 Web 工具。',
-    forWho: '个人 / 小团队 / 课程项目',
+    title: 'AI 智能体 / Agent 搭建',
+    desc: '基于大模型打造对话助手、自动化工作流、RAG 知识库，让 AI 真正帮你干活。',
+    forWho: '创业者 / 运营 / 课程项目',
     color: '#34D399',
+    iconType: 'bot' as const,
+  },
+  {
+    title: '小程序 / Web 工具定制',
+    desc: '微信小程序、H5 工具、轻量 Web 应用，从想法到能跑一条龙。',
+    forWho: '个人 / 小团队 / 在校生',
+    color: '#3B82F6',
     iconType: 'gear' as const,
+  },
+  {
+    title: '网站开发 / 前端实现',
+    desc: '个人作品集、企业官网、活动页，React / Vue 站点与交互体验。',
+    forWho: '求职者 / 创作者 / 企业',
+    color: '#FB923C',
+    iconType: 'layout' as const,
   },
   {
     title: '数据分析 / 可视化',
     desc: '从数据清洗、建模到可视化看板，把杂乱数据讲成清楚的 Story。',
     forWho: '运营 / 调研 / 竞赛',
-    color: '#3B82F6',
+    color: '#A855F7',
     iconType: 'chart' as const,
-  },
-  {
-    title: '源码交付 / 作业辅助',
-    desc: 'Python、React、TypeScript 等方向，讲透思路、交付可读的代码。',
-    forWho: '在校生 / 自学伙伴',
-    color: '#FB923C',
-    iconType: 'code' as const,
   },
 ]
 
@@ -127,7 +134,51 @@ function FlowBorder({ active, color }: { active: boolean; color: string }) {
 }
 
 /* ───────── 服务图标动效 ───────── */
-function ServiceIcon({ type, color }: { type: 'gear' | 'chart' | 'code'; color: string }) {
+function ServiceIcon({ type, color }: { type: 'gear' | 'chart' | 'code' | 'bot' | 'layout'; color: string }) {
+  if (type === 'bot') {
+    return (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ animation: 'ship-float 3s ease-in-out infinite' }}
+      >
+        <rect x="4" y="9" width="16" height="10" rx="2" />
+        <path d="M12 9V5m0 0h-2.5M12 5h2.5" />
+        <circle cx="9" cy="14" r="1" fill={color} stroke="none" />
+        <circle cx="15" cy="14" r="1" fill={color} stroke="none" />
+        <path d="M9.5 16.5h5" />
+      </svg>
+    )
+  }
+
+  if (type === 'layout') {
+    return (
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={{ animation: 'ship-float 3s ease-in-out infinite' }}
+      >
+        <rect x="3" y="4" width="18" height="16" rx="2" />
+        <path d="M3 9h18" />
+        <circle cx="6" cy="6.5" r="0.5" fill={color} stroke="none" />
+        <circle cx="8.5" cy="6.5" r="0.5" fill={color} stroke="none" />
+        <path d="M7 13l3 2 4-4" />
+      </svg>
+    )
+  }
+
   if (type === 'gear') {
     return (
       <svg
@@ -185,14 +236,15 @@ function CardConnections({
   if (activeIndex === null) return null
 
   const positions = [
-    { x: 16.67, y: 50 },
-    { x: 50, y: 50 },
-    { x: 83.33, y: 50 },
+    { x: 25, y: 25 },
+    { x: 75, y: 25 },
+    { x: 25, y: 75 },
+    { x: 75, y: 75 },
   ]
 
   return (
     <svg
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
       preserveAspectRatio="none"
       style={{ opacity: 0.15 }}
     >
@@ -307,7 +359,7 @@ export default function StarChain() {
           <div className="relative">
             <CardConnections activeIndex={hoveredIndex} />
 
-            <div className="grid md:grid-cols-3 gap-6 relative z-10">
+            <div className="grid md:grid-cols-2 gap-6 relative z-10">
               {services.map((s, i) => (
                 <ServiceCard
                   key={s.title}
