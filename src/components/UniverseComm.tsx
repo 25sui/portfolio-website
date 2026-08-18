@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionShell, SectionTitle, glassCard } from '@/components/CosmicBits'
+import wechatQR from '@/assets/wechat-qr.jpg'
 
 const ACCENT = '#A855F7'
 
@@ -117,18 +118,6 @@ function TerminalCard({
   )
 }
 
-/* ───────── 二维码占位 ───────── */
-function FakeQR() {
-  const cells = Array.from({ length: 49 }, (_, i) => (i * 7 + 3) % 5 < 2)
-  return (
-    <div className="w-28 h-28 grid grid-cols-7 grid-rows-7 gap-px bg-white/10 p-1.5 rounded-lg">
-      {cells.map((on, i) => (
-        <span key={i} className={on ? 'bg-white rounded-[1px]' : 'bg-transparent'} />
-      ))}
-    </div>
-  )
-}
-
 /* ───────── 主组件 ───────── */
 export default function UniverseComm() {
   const [connected, setConnected] = useState(false)
@@ -209,7 +198,11 @@ export default function UniverseComm() {
                         <span className="text-purple-400 font-mono text-sm">{'>'}</span>
                         <h3 className="text-white font-semibold">微信</h3>
                       </div>
-                      <FakeQR />
+                      <img
+                        src={wechatQR}
+                        alt="瑞仔微信二维码"
+                        className="w-32 h-32 rounded-lg bg-white p-1.5"
+                      />
                       <p className="text-xs text-white/40 mt-3 font-mono">扫码添加，备注「瑞仔宇宙」</p>
                     </TerminalCard>
                   </div>
