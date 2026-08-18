@@ -25,8 +25,17 @@ export default function Footer() {
             <a href="#hangxing" className="text-white/40 hover:text-white transition-colors text-sm">
               航行星图
             </a>
+            <a href="#xinghe" className="text-white/40 hover:text-white transition-colors text-sm">
+              星河电台
+            </a>
+            <a href="#xinglian" className="text-white/40 hover:text-white transition-colors text-sm">
+              星链枢纽
+            </a>
             <a href="#tongxun" className="text-white/40 hover:text-white transition-colors text-sm">
               宇宙通讯站
+            </a>
+            <a href="#jingxiang" className="text-white/40 hover:text-white transition-colors text-sm">
+              镜像星
             </a>
           </div>
         </div>

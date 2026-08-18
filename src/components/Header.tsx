@@ -8,6 +8,7 @@ const navItems = [
   { label: '星河电台', href: '#xinghe' },
   { label: '星链枢纽', href: '#xinglian' },
   { label: '宇宙通讯站', href: '#tongxun' },
+  { label: '镜像星', href: '#jingxiang' },
 ]
 
 export default function Header() {
