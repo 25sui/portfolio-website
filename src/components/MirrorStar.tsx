@@ -6,27 +6,27 @@ const ACCENT = '#8B5CF6'
 
 const personas = [
   {
-    tag: '想搞点东西的人',
-    sub: '脑子里有个产品，但缺人把它做出来',
-    mirror: '你出想法，我出代码——AI 智能体、小程序、Web 工具，帮你从 0 跑到能上线。',
+    tag: '有个想法，缺人做',
+    sub: '脑子里有个产品或工具，但不知道怎么落地',
+    mirror: '有想法就行，代码我来写。AI 智能体、小程序、Web 工具，从 0 跑到能上线。',
     services: ['AI 智能体 / Agent 搭建', '小程序 / Web 工具定制'],
   },
   {
-    tag: '在校生 / 自学伙伴',
-    sub: '作业、课程项目、作品集，想做得更专业',
-    mirror: '项目、竞赛、作品集，我们一起把它做到能拿得出手。',
+    tag: '学生 / 正在自学',
+    sub: '作业、竞赛、作品集，想做得更专业',
+    mirror: '作业、竞赛、作品集，我们一起做到能拿得出手。',
     services: ['网站开发 / 前端实现', '数据分析 / 可视化'],
   },
   {
-    tag: '创作者 / 运营',
-    sub: '要内容、要数据、也要效率',
-    mirror: '把重复的活交给工具，你只管创作和表达。',
+    tag: '做内容 / 做运营',
+    sub: '要效率、要数据、也要工具',
+    mirror: '把重复活交给 AI 工具，你只管创作。',
     services: ['AI 智能体 / Agent 搭建', '数据分析 / 可视化'],
   },
   {
-    tag: '企业 / 小团队',
-    sub: '官网、内部工具、数据看板，想补齐',
-    mirror: '从官网到内部工具，一条龙帮你补齐数字化的短板。',
+    tag: '有项目要外包',
+    sub: '官网、内部工具、数据看板，想找人做',
+    mirror: '官网、工具、看板，一条龙帮你补齐。',
     services: ['网站开发 / 前端实现', '数据分析 / 可视化', 'AI 智能体 / Agent 搭建'],
   },
 ]
@@ -47,8 +47,8 @@ export default function MirrorStar() {
         icon="👤"
         label="镜像星"
         accent={ACCENT}
-        title="镜像星 · 照见你想要的合作"
-        desc="这面镜子不照我，照你。选一个最像你的身份，看看我能帮你把什么跑起来。"
+        title="镜像星 · 你是哪种人"
+        desc="主页看完了还是不知道？先告诉我你是什么人，我给你指条路。"
       />
 
       {/* 中央镜面：全息倾斜 + 选中时信号波纹 */}
@@ -88,7 +88,7 @@ export default function MirrorStar() {
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-8">
             {selected === null ? (
               <p className="text-white/40 text-sm leading-relaxed">
-                选一个身份，<br />镜子会告诉你答案
+                点下面一个标签，<br />镜子会给你指路
               </p>
             ) : (
               <motion.div
@@ -121,7 +121,7 @@ export default function MirrorStar() {
                   className="mt-6 inline-flex items-center gap-1 text-sm font-medium px-4 py-2 rounded-full border transition hover:scale-105"
                   style={{ color: ACCENT, borderColor: `${ACCENT}66`, background: `${ACCENT}14` }}
                 >
-                  前往星链枢纽 →
+                  看看我能帮你做什么 →
                 </a>
               </motion.div>
             )}
