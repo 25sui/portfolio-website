@@ -261,7 +261,7 @@ export default function GalaxyHero() {
 
           {/* 关于瑞仔：IP 叙事，不暴露真实学校/专业/年级 */}
           <div className="mt-7 pt-5 border-t border-white/10 text-xs text-white/55 leading-relaxed">
-            瑞仔 · AI 辅助开发探索者
+            瑞仔 · AI 开发探索者
             <br />
             把想法变成能跑的项目，把踩坑过程变成可复用的经验。
           </div>
