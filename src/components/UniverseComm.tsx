@@ -8,7 +8,7 @@ const socials = [
   { name: 'GitHub', handle: '@25sui', href: 'https://github.com/25sui' },
   { name: '小红书', handle: '@瑞仔（待填）', href: '#' },
   { name: 'B 站', handle: '@瑞仔（待填）', href: '#' },
-  { name: '掘金', handle: '@瑞仔（待填）', href: '#' },
+  { name: '抖音', handle: '@瑞仔（待填）', href: '#' },
 ]
 
 const LOG_LINES = [
