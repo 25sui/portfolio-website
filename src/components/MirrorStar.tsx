@@ -51,51 +51,59 @@ export default function MirrorStar() {
         desc="主页看完了还是不知道？先告诉我你是什么人，我给你指条路。"
       />
 
-      {/* 中央镜面：全息倾斜 + 选中时信号波纹 */}
+      {/* 中央镜面：全息倾斜 + 选中时扫描线 + 内发光 */}
       <div className="relative mx-auto w-full max-w-lg mb-12">
         <div
-          className="relative w-full aspect-[4/3] rounded-3xl border bg-white/[0.03] backdrop-blur-md overflow-hidden transition-all duration-500"
+          className="relative w-full aspect-[4/3] rounded-3xl border bg-white/[0.06] backdrop-blur-md overflow-hidden transition-all duration-500"
           style={{
-            borderColor: selected !== null ? `${ACCENT}88` : `${ACCENT}33`,
-            boxShadow: selected !== null ? `0 0 70px ${ACCENT}55` : `0 0 30px ${ACCENT}22`,
-            transform: 'perspective(1200px) rotateX(3deg)',
+            borderColor: selected !== null ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.12)',
+            boxShadow: selected !== null
+              ? `inset 0 0 80px ${ACCENT}18, 0 0 40px ${ACCENT}22`
+              : `0 0 30px ${ACCENT}15`,
+            transform: `perspective(1200px) rotateX(${selected !== null ? 1 : 3}deg)`,
           }}
         >
-          {/* 镜面反光 */}
+          {/* 顶部镜面反光 */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                'radial-gradient(circle at 30% 20%, rgba(255,255,255,0.14), transparent 45%)',
+                'radial-gradient(circle at 30% 15%, rgba(255,255,255,0.22), transparent 50%)',
             }}
           />
-          {/* 选中的信号波纹（复用 signal-ripple 关键帧） */}
+          {/* 底部微光 */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                'radial-gradient(circle at 70% 85%, rgba(139,92,246,0.08), transparent 55%)',
+            }}
+          />
+
+          {/* 选中时的扫描线 */}
           {selected !== null && (
             <div
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-              style={{ width: '70%', height: '70%' }}
-            >
-              <div
-                className="absolute inset-0 rounded-full border"
-                style={{
-                  borderColor: `${ACCENT}55`,
-                  animation: 'signal-ripple 2.5s ease-out infinite',
-                }}
-              />
-            </div>
+              className="absolute inset-x-0 top-0 h-px pointer-events-none"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
+                animation: 'sweep-line 1.8s ease-in-out forwards',
+                boxShadow: `0 0 12px 2px ${ACCENT}44`,
+              }}
+            />
           )}
+
           {/* 镜面内容 */}
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-8">
             {selected === null ? (
-              <p className="text-white/40 text-sm leading-relaxed">
-                点下面一个标签，<br />镜子会给你指路
+              <p className="text-white/50 text-sm leading-relaxed">
+                点选身份，<br />获取行动指南
               </p>
             ) : (
               <motion.div
                 key={selected}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+                initial={{ opacity: 0, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, filter: 'blur(0px)' }}
+                transition={{ duration: 0.5, delay: 0.15 }}
                 className="flex flex-col items-center"
               >
                 <p className="text-white text-base sm:text-lg leading-relaxed max-w-sm">
@@ -144,7 +152,14 @@ export default function MirrorStar() {
               transition={{ duration: 0.5, delay: i * 0.12 }}
               whileHover={{ y: -4 }}
               className={`${glassCard} p-5 text-left transition-all duration-300`}
-              style={active ? { borderColor: ACCENT, boxShadow: `0 0 30px ${ACCENT}44` } : undefined}
+              style={
+                active
+                  ? {
+                      background: 'rgba(255,255,255,0.07)',
+                      boxShadow: `inset 0 0 20px ${ACCENT}12`,
+                    }
+                  : undefined
+              }
             >
               <div className="text-white font-medium leading-snug">{p.tag}</div>
               <div className="text-white/50 text-xs mt-2 leading-relaxed">{p.sub}</div>
