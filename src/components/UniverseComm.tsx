@@ -6,9 +6,9 @@ const ACCENT = '#A855F7'
 
 const socials = [
   { name: 'GitHub', handle: '@25sui', href: 'https://github.com/25sui' },
-  { name: '小红书', handle: '@瑞仔（待填）', href: '#' },
-  { name: 'B 站', handle: '@瑞仔（待填）', href: '#' },
-  { name: '抖音', handle: '@瑞仔（待填）', href: '#' },
+  { name: '小红书', handle: '@49710202904', href: 'https://www.xiaohongshu.com/user/profile/49710202904' },
+  { name: 'B 站', handle: '@2012160766', href: 'https://space.bilibili.com/2012160766' },
+  { name: '抖音', handle: '@98755198296', href: 'https://www.douyin.com/search/98755198296' },
 ]
 
 const LOG_LINES = [

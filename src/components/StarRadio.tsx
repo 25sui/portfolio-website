@@ -7,27 +7,27 @@ const ACCENT = '#FB923C'
 const channels = [
   {
     name: '小红书',
-    handle: '@瑞仔（待填）',
+    handle: '@49710202904',
     desc: 'AI 辅助开发实战 · 大二真实成长日记',
     color: '#FB923C',
     freq: '104.5',
-    href: '#',
+    href: 'https://www.xiaohongshu.com/user/profile/49710202904',
   },
   {
     name: '抖音',
-    handle: '@瑞仔（待填）',
+    handle: '@98755198296',
     desc: '项目拆解短视频 · 从 0 到能跑的全过程',
     color: '#FE2C55',
     freq: '98.7',
-    href: '#',
+    href: 'https://www.douyin.com/search/98755198296',
   },
   {
     name: '公众号',
-    handle: '@瑞仔（待填）',
+    handle: '@gh_f8cac5252465',
     desc: '技术长文 · 算法 / 全栈踩坑记录',
     color: '#07C160',
     freq: '112.3',
-    href: '#',
+    href: 'https://weixin.sogou.com/weixin?type=1&query=gh_f8cac5252465',
   },
 ]
 
@@ -160,6 +160,8 @@ function ChannelCard({
     >
       <a
         href={channel.href}
+        target={channel.href.startsWith('http') ? '_blank' : undefined}
+        rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
         className={`block relative p-6 ${glassCard} transition-all duration-300 overflow-hidden`}
         style={{
           borderColor: hovered ? `${channel.color}55` : 'rgba(255,255,255,0.10)',
