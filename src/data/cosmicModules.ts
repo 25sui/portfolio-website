@@ -70,8 +70,8 @@ export const cosmicModules: CosmicModule[] = [
     short: '镜像星',
     icon: '👤',
     color: '#8B5CF6',
-    desc: 'AI 分身（即将点亮）',
-    enabled: false,
+    desc: '你该找我做什么',
+    enabled: true,
   },
 ]
 

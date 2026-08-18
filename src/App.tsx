@@ -4,6 +4,7 @@ import InProgress from '@/components/InProgress'
 import StarRadio from '@/components/StarRadio'
 import StarChain from '@/components/StarChain'
 import UniverseComm from '@/components/UniverseComm'
+import MirrorStar from '@/components/MirrorStar'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -18,6 +19,7 @@ export default function App() {
         <StarRadio />
         <StarChain />
         <UniverseComm />
+        <MirrorStar />
       </main>
       <Footer />
     </div>
