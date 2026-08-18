@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { SectionShell, SectionTitle, glassCard } from '@/components/CosmicBits'
+import wechatMPQR from '@/assets/wechat-mp-qr.jpg'
 
 const ACCENT = '#FB923C'
 
@@ -27,7 +28,7 @@ const channels = [
     desc: '技术长文 · 算法 / 全栈踩坑记录',
     color: '#07C160',
     freq: '112.3',
-    href: 'https://weixin.sogou.com/weixin?type=1&query=gh_f8cac5252465',
+    qr: wechatMPQR, // 公众号无 web 直达，扫码关注
   },
 ]
 
@@ -137,6 +138,80 @@ function TunerKnob({
   )
 }
 
+/* ───────── 公众号扫码 modal ───────── */
+function QRModal({
+  qr,
+  name,
+  handle,
+  color,
+  onClose,
+}: {
+  qr: string
+  name: string
+  handle: string
+  color: string
+  onClose: () => void
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+    >
+      <motion.div
+        initial={{ scale: 0.85, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative bg-[#0a0a14] border border-white/10 rounded-2xl p-8 max-w-sm w-full shadow-2xl"
+      >
+        {/* 关闭按钮 */}
+        <button
+          onClick={onClose}
+          aria-label="关闭"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition"
+        >
+          ✕
+        </button>
+
+        {/* 头部 */}
+        <div className="text-center mb-5">
+          <div className="text-[10px] tracking-widest text-white/30 mb-2 font-mono">SCAN TO FOLLOW</div>
+          <h3 className="text-xl font-semibold text-white mb-1">{name}</h3>
+          <p className="text-xs text-white/45 font-mono">{handle}</p>
+        </div>
+
+        {/* 二维码 */}
+        <div className="bg-white p-3 rounded-xl mb-4 mx-auto" style={{ width: 'fit-content' }}>
+          <img
+            src={qr}
+            alt={`${name} 二维码`}
+            className="block w-56 h-56"
+          />
+        </div>
+
+        {/* 扫码提示 */}
+        <p className="text-center text-xs text-white/40 leading-relaxed">
+          微信扫一扫<br />
+          或长按图片识别二维码
+        </p>
+
+        {/* 底部状态 */}
+        <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-center gap-2">
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse"
+            style={{ background: color, boxShadow: `0 0 8px ${color}` }}
+          />
+          <span className="text-[10px] tracking-wider text-white/30 font-mono">SIGNAL LOCKED</span>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 /* ───────── 频道卡片 ───────── */
 function ChannelCard({
   channel,
@@ -147,90 +222,113 @@ function ChannelCard({
 }) {
   const [hovered, setHovered] = useState(false)
   const [tuned, setTuned] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const isQR = !!channel.qr
+  const actionLabel = isQR ? '扫码关注' : '前往关注'
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.55, delay: index * 0.12, ease: 'easeOut' }}
-      className="relative"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <a
-        href={channel.href}
-        target={channel.href.startsWith('http') ? '_blank' : undefined}
-        rel={channel.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-        className={`block relative p-6 ${glassCard} transition-all duration-300 overflow-hidden`}
-        style={{
-          borderColor: hovered ? `${channel.color}55` : 'rgba(255,255,255,0.10)',
-          boxShadow: hovered
-            ? `0 0 40px ${channel.color}12, inset 0 1px 0 rgba(255,255,255,0.05)`
-            : 'none',
-        }}
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.55, delay: index * 0.12, ease: 'easeOut' }}
+        className="relative"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
-        <SignalRings active={hovered} color={channel.color} />
+        <a
+          href={channel.href ?? '#'}
+          target={!isQR && channel.href?.startsWith('http') ? '_blank' : undefined}
+          rel={!isQR && channel.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+          onClick={(e) => {
+            if (isQR) {
+              e.preventDefault()
+              setShowModal(true)
+            }
+          }}
+          className={`block relative p-6 ${glassCard} transition-all duration-300 overflow-hidden ${isQR ? 'cursor-pointer' : ''}`}
+          style={{
+            borderColor: hovered ? `${channel.color}55` : 'rgba(255,255,255,0.10)',
+            boxShadow: hovered
+              ? `0 0 40px ${channel.color}12, inset 0 1px 0 rgba(255,255,255,0.05)`
+              : 'none',
+          }}
+        >
+          <SignalRings active={hovered} color={channel.color} />
 
-        {/* 音频波形 */}
-        <WaveBars active={hovered || tuned} color={channel.color} />
+          {/* 音频波形 */}
+          <WaveBars active={hovered || tuned} color={channel.color} />
 
-        {/* 频率显示（数码管风格） */}
-        <div className="flex items-center justify-between mb-4">
-          <span className="font-mono text-[10px] tracking-wider text-white/30">
-            FREQ: {channel.freq} MHz
-          </span>
-          <div className="flex items-center gap-1.5">
-            <div
-              className="w-1.5 h-1.5 rounded-full"
+          {/* 频率显示（数码管风格） */}
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-mono text-[10px] tracking-wider text-white/30">
+              FREQ: {channel.freq} MHz
+            </span>
+            <div className="flex items-center gap-1.5">
+              <div
+                className="w-1.5 h-1.5 rounded-full"
+                style={{
+                  background: hovered || tuned ? channel.color : 'rgba(255,255,255,0.15)',
+                  boxShadow: hovered || tuned ? `0 0 6px ${channel.color}` : 'none',
+                }}
+              />
+              <span className="text-[10px] text-white/30">
+                {hovered || tuned ? 'SIGNAL' : 'NOISE'}
+              </span>
+            </div>
+          </div>
+
+          {/* 平台信息 */}
+          <div className="flex items-center gap-3 mb-3">
+            <span
+              className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
               style={{
-                background: hovered || tuned ? channel.color : 'rgba(255,255,255,0.15)',
-                boxShadow: hovered || tuned ? `0 0 6px ${channel.color}` : 'none',
+                color: channel.color,
+                background: `${channel.color}1a`,
+                border: `1px solid ${channel.color}55`,
               }}
-            />
-            <span className="text-[10px] text-white/30">
-              {hovered || tuned ? 'SIGNAL' : 'NOISE'}
+            >
+              {channel.name[0]}
+            </span>
+            <div>
+              <h3 className="text-white font-semibold">{channel.name}</h3>
+              <p className="text-xs text-white/45">{channel.handle}</p>
+            </div>
+          </div>
+
+          <p className="text-sm text-white/50 leading-relaxed mb-4">{channel.desc}</p>
+
+          {/* 底部：调谐器 + 前往 */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <TunerKnob
+                color={channel.color}
+                onClick={() => setTuned((t) => !t)}
+              />
+              <span className="text-[10px] text-white/30">
+                {tuned ? 'TUNED' : 'TUNE'}
+              </span>
+            </div>
+            <span className="text-sm font-medium" style={{ color: channel.color }}>
+              {actionLabel} →
             </span>
           </div>
-        </div>
+        </a>
+      </motion.div>
 
-        {/* 平台信息 */}
-        <div className="flex items-center gap-3 mb-3">
-          <span
-            className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
-            style={{
-              color: channel.color,
-              background: `${channel.color}1a`,
-              border: `1px solid ${channel.color}55`,
-            }}
-          >
-            {channel.name[0]}
-          </span>
-          <div>
-            <h3 className="text-white font-semibold">{channel.name}</h3>
-            <p className="text-xs text-white/45">{channel.handle}</p>
-          </div>
-        </div>
-
-        <p className="text-sm text-white/50 leading-relaxed mb-4">{channel.desc}</p>
-
-        {/* 底部：调谐器 + 前往 */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <TunerKnob
-              color={channel.color}
-              onClick={() => setTuned((t) => !t)}
-            />
-            <span className="text-[10px] text-white/30">
-              {tuned ? 'TUNED' : 'TUNE'}
-            </span>
-          </div>
-          <span className="text-sm font-medium" style={{ color: channel.color }}>
-            前往关注 →
-          </span>
-        </div>
-      </a>
-    </motion.div>
+      <AnimatePresence>
+        {showModal && isQR && (
+          <QRModal
+            qr={channel.qr!}
+            name={channel.name}
+            handle={channel.handle}
+            color={channel.color}
+            onClose={() => setShowModal(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
