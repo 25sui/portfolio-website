@@ -95,8 +95,8 @@ export default function MirrorStar() {
           {/* 镜面内容 */}
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-8">
             {selected === null ? (
-              <p className="text-white/50 text-sm leading-relaxed">
-                点选身份，<br />获取行动指南
+              <p className="text-white/50 text-sm leading-relaxed whitespace-nowrap">
+                点选身份，获取行动指南
               </p>
             ) : (
               <motion.div
