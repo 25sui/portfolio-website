@@ -1,18 +1,27 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionShell, SectionTitle, glassCard } from '@/components/CosmicBits'
+import xiaohongshuQR from '@/assets/xiaohongshu-qr.jpg'
+import douyinQR from '@/assets/douyin-qr.jpg'
 import wechatMPQR from '@/assets/wechat-mp-qr.jpg'
 
 const ACCENT = '#FB923C'
 
+// 三个频道全部走站内扫码 modal：
+// - 小红书 /user/profile/<id> 实测返回 SPA shell（无效）
+// - 抖音 /search/<id> 要二次点击进主页（体验断）
+// - 公众号 无 web 直达主页（兜底也是断）
+// 全部都改成 qr 字段，扫码即关注，最稳
 const channels = [
   {
     name: '小红书',
     handle: '@49710202904',
-    desc: 'AI 辅助开发实战 · 大二真实成长日记',
+    desc: 'AI 开发实战 · 大二真实成长日记',
     color: '#FB923C',
     freq: '104.5',
-    href: 'https://www.xiaohongshu.com/user/profile/49710202904',
+    qr: xiaohongshuQR,
+    appName: '小红书',
+    scanHint: '保存图片到手机相册\n打开小红书 → 右上角「扫一扫」\n从相册识别二维码即可关注',
   },
   {
     name: '抖音',
@@ -20,7 +29,9 @@ const channels = [
     desc: '项目拆解短视频 · 从 0 到能跑的全过程',
     color: '#FE2C55',
     freq: '98.7',
-    href: 'https://www.douyin.com/search/98755198296',
+    qr: douyinQR,
+    appName: '抖音',
+    scanHint: '保存图片到手机相册\n打开抖音 → 右上角「扫一扫」\n从相册识别二维码即可关注',
   },
   {
     name: '公众号',
@@ -28,7 +39,9 @@ const channels = [
     desc: '技术长文 · 算法 / 全栈踩坑记录',
     color: '#07C160',
     freq: '112.3',
-    qr: wechatMPQR, // 公众号无 web 直达，扫码关注
+    qr: wechatMPQR,
+    appName: '微信',
+    scanHint: '打开微信「扫一扫」\n或长按图片识别二维码\n即可关注公众号',
   },
 ]
 
@@ -138,18 +151,22 @@ function TunerKnob({
   )
 }
 
-/* ───────── 公众号扫码 modal ───────── */
+/* ───────── 站内扫码 modal（多平台共用）───────── */
 function QRModal({
   qr,
   name,
   handle,
   color,
+  appName,
+  scanHint,
   onClose,
 }: {
   qr: string
   name: string
   handle: string
   color: string
+  appName: string // 平台名（微信 / 小红书 / 抖音）
+  scanHint: string // 操作提示
   onClose: () => void
 }) {
   return (
@@ -193,10 +210,9 @@ function QRModal({
           />
         </div>
 
-        {/* 扫码提示 */}
-        <p className="text-center text-xs text-white/40 leading-relaxed">
-          微信扫一扫<br />
-          或长按图片识别二维码
+        {/* 操作提示（按平台定制） */}
+        <p className="text-center text-xs text-white/40 leading-relaxed whitespace-pre-line">
+          {scanHint}
         </p>
 
         {/* 底部状态 */}
@@ -205,7 +221,7 @@ function QRModal({
             className="w-1.5 h-1.5 rounded-full animate-pulse"
             style={{ background: color, boxShadow: `0 0 8px ${color}` }}
           />
-          <span className="text-[10px] tracking-wider text-white/30 font-mono">SIGNAL LOCKED</span>
+          <span className="text-[10px] tracking-wider text-white/30 font-mono">SIGNAL LOCKED · {appName.toUpperCase()}</span>
         </div>
       </motion.div>
     </motion.div>
@@ -223,8 +239,78 @@ function ChannelCard({
   const [hovered, setHovered] = useState(false)
   const [tuned, setTuned] = useState(false)
   const [showModal, setShowModal] = useState(false)
-  const isQR = !!channel.qr
-  const actionLabel = isQR ? '扫码关注' : '前往关注'
+  const actionLabel = '扫码关注'
+
+  const cardStyle = {
+    borderColor: hovered ? `${channel.color}55` : 'rgba(255,255,255,0.10)',
+    boxShadow: hovered
+      ? `0 0 40px ${channel.color}12, inset 0 1px 0 rgba(255,255,255,0.05)`
+      : 'none',
+  } as const
+
+  const CardBody = (
+    <>
+      <SignalRings active={hovered} color={channel.color} />
+
+      {/* 音频波形 */}
+      <WaveBars active={hovered || tuned} color={channel.color} />
+
+      {/* 频率显示（数码管风格） */}
+      <div className="flex items-center justify-between mb-4">
+        <span className="font-mono text-[10px] tracking-wider text-white/30">
+          FREQ: {channel.freq} MHz
+        </span>
+        <div className="flex items-center gap-1.5">
+          <div
+            className="w-1.5 h-1.5 rounded-full"
+            style={{
+              background: hovered || tuned ? channel.color : 'rgba(255,255,255,0.15)',
+              boxShadow: hovered || tuned ? `0 0 6px ${channel.color}` : 'none',
+            }}
+          />
+          <span className="text-[10px] text-white/30">
+            {hovered || tuned ? 'SIGNAL' : 'NOISE'}
+          </span>
+        </div>
+      </div>
+
+      {/* 平台信息 */}
+      <div className="flex items-center gap-3 mb-3">
+        <span
+          className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
+          style={{
+            color: channel.color,
+            background: `${channel.color}1a`,
+            border: `1px solid ${channel.color}55`,
+          }}
+        >
+          {channel.name[0]}
+        </span>
+        <div>
+          <h3 className="text-white font-semibold">{channel.name}</h3>
+          <p className="text-xs text-white/45">{channel.handle}</p>
+        </div>
+      </div>
+
+      <p className="text-sm text-white/50 leading-relaxed mb-4">{channel.desc}</p>
+
+      {/* 底部：调谐器 + 前往 */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <TunerKnob
+            color={channel.color}
+            onClick={() => setTuned((t) => !t)}
+          />
+          <span className="text-[10px] text-white/30">
+            {tuned ? 'TUNED' : 'TUNE'}
+          </span>
+        </div>
+        <span className="text-sm font-medium" style={{ color: channel.color }}>
+          {actionLabel} →
+        </span>
+      </div>
+    </>
+  )
 
   return (
     <>
@@ -237,93 +323,25 @@ function ChannelCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <a
-          href={channel.href ?? '#'}
-          target={!isQR && channel.href?.startsWith('http') ? '_blank' : undefined}
-          rel={!isQR && channel.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-          onClick={(e) => {
-            if (isQR) {
-              e.preventDefault()
-              setShowModal(true)
-            }
-          }}
-          className={`block relative p-6 ${glassCard} transition-all duration-300 overflow-hidden ${isQR ? 'cursor-pointer' : ''}`}
-          style={{
-            borderColor: hovered ? `${channel.color}55` : 'rgba(255,255,255,0.10)',
-            boxShadow: hovered
-              ? `0 0 40px ${channel.color}12, inset 0 1px 0 rgba(255,255,255,0.05)`
-              : 'none',
-          }}
+        <button
+          type="button"
+          onClick={() => setShowModal(true)}
+          className={`block w-full text-left relative p-6 ${glassCard} transition-all duration-300 overflow-hidden cursor-pointer`}
+          style={cardStyle}
         >
-          <SignalRings active={hovered} color={channel.color} />
-
-          {/* 音频波形 */}
-          <WaveBars active={hovered || tuned} color={channel.color} />
-
-          {/* 频率显示（数码管风格） */}
-          <div className="flex items-center justify-between mb-4">
-            <span className="font-mono text-[10px] tracking-wider text-white/30">
-              FREQ: {channel.freq} MHz
-            </span>
-            <div className="flex items-center gap-1.5">
-              <div
-                className="w-1.5 h-1.5 rounded-full"
-                style={{
-                  background: hovered || tuned ? channel.color : 'rgba(255,255,255,0.15)',
-                  boxShadow: hovered || tuned ? `0 0 6px ${channel.color}` : 'none',
-                }}
-              />
-              <span className="text-[10px] text-white/30">
-                {hovered || tuned ? 'SIGNAL' : 'NOISE'}
-              </span>
-            </div>
-          </div>
-
-          {/* 平台信息 */}
-          <div className="flex items-center gap-3 mb-3">
-            <span
-              className="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shrink-0"
-              style={{
-                color: channel.color,
-                background: `${channel.color}1a`,
-                border: `1px solid ${channel.color}55`,
-              }}
-            >
-              {channel.name[0]}
-            </span>
-            <div>
-              <h3 className="text-white font-semibold">{channel.name}</h3>
-              <p className="text-xs text-white/45">{channel.handle}</p>
-            </div>
-          </div>
-
-          <p className="text-sm text-white/50 leading-relaxed mb-4">{channel.desc}</p>
-
-          {/* 底部：调谐器 + 前往 */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <TunerKnob
-                color={channel.color}
-                onClick={() => setTuned((t) => !t)}
-              />
-              <span className="text-[10px] text-white/30">
-                {tuned ? 'TUNED' : 'TUNE'}
-              </span>
-            </div>
-            <span className="text-sm font-medium" style={{ color: channel.color }}>
-              {actionLabel} →
-            </span>
-          </div>
-        </a>
+          {CardBody}
+        </button>
       </motion.div>
 
       <AnimatePresence>
-        {showModal && isQR && (
+        {showModal && (
           <QRModal
             qr={channel.qr!}
             name={channel.name}
             handle={channel.handle}
             color={channel.color}
+            appName={channel.appName}
+            scanHint={channel.scanHint}
             onClose={() => setShowModal(false)}
           />
         )}

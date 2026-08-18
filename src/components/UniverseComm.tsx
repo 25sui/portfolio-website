@@ -2,14 +2,28 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SectionShell, SectionTitle, glassCard } from '@/components/CosmicBits'
 import wechatQR from '@/assets/wechat-qr.jpg'
+import xiaohongshuQR from '@/assets/xiaohongshu-qr.jpg'
+import douyinQR from '@/assets/douyin-qr.jpg'
 
 const ACCENT = '#A855F7'
 
-const socials = [
+// GitHub / B站有真实 web 直达 → 跳转
+// 小红书 / 抖音实测无有效 web URL（小红书 /user/profile/<id> 返回 SPA shell，
+// 抖音 /search/<id> 要二次点击）→ 改用 qr 字段，点击弹二维码 modal
+type Social = {
+  name: string
+  handle: string
+  href?: string
+  qr?: string
+  appName?: string
+  scanHint?: string
+}
+
+const socials: Social[] = [
   { name: 'GitHub', handle: '@25sui', href: 'https://github.com/25sui' },
-  { name: '小红书', handle: '@49710202904', href: 'https://www.xiaohongshu.com/user/profile/49710202904' },
   { name: 'B 站', handle: '@2012160766', href: 'https://space.bilibili.com/2012160766' },
-  { name: '抖音', handle: '@98755198296', href: 'https://www.douyin.com/search/98755198296' },
+  { name: '小红书', handle: '@49710202904', qr: xiaohongshuQR, appName: '小红书', scanHint: '保存图片到相册\n打开小红书 → 右上角「扫一扫」\n从相册识别即可关注' },
+  { name: '抖音', handle: '@98755198296', qr: douyinQR, appName: '抖音', scanHint: '保存图片到相册\n打开抖音 → 右上角「扫一扫」\n从相册识别即可关注' },
 ]
 
 const LOG_LINES = [
@@ -118,10 +132,69 @@ function TerminalCard({
   )
 }
 
+/* ───────── 社交平台二维码 modal（嵌套在通讯弹层里）───────── */
+function SocialQRModal({
+  qr,
+  name,
+  handle,
+  appName,
+  scanHint,
+  onClose,
+}: {
+  qr: string
+  name: string
+  handle: string
+  appName: string
+  scanHint: string
+  onClose: () => void
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+    >
+      <motion.div
+        initial={{ scale: 0.85, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 280 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative bg-[#0a0a14] border border-purple-400/20 rounded-2xl p-7 max-w-xs w-full shadow-2xl"
+      >
+        <button
+          onClick={onClose}
+          aria-label="关闭"
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition"
+        >
+          ✕
+        </button>
+
+        <div className="text-center mb-4">
+          <div className="text-[10px] tracking-widest text-purple-300/40 mb-1 font-mono">SIGNAL · {appName.toUpperCase()}</div>
+          <h3 className="text-lg font-semibold text-white mb-0.5">{name}</h3>
+          <p className="text-xs text-white/45 font-mono">{handle}</p>
+        </div>
+
+        <div className="bg-white p-2.5 rounded-xl mb-3 mx-auto" style={{ width: 'fit-content' }}>
+          <img src={qr} alt={`${name} 二维码`} className="block w-48 h-48" />
+        </div>
+
+        <p className="text-center text-[11px] text-white/40 leading-relaxed whitespace-pre-line">
+          {scanHint}
+        </p>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 /* ───────── 主组件 ───────── */
 export default function UniverseComm() {
   const [connected, setConnected] = useState(false)
   const [logDone, setLogDone] = useState(false)
+  const [activeQR, setActiveQR] = useState<Social | null>(null)
 
   const handleConnect = () => {
     setConnected(true)
@@ -131,6 +204,7 @@ export default function UniverseComm() {
   const handleClose = () => {
     setConnected(false)
     setLogDone(false)
+    setActiveQR(null)
   }
 
   return (
@@ -214,17 +288,31 @@ export default function UniverseComm() {
                       <h3 className="text-white/60 text-sm">其他频道</h3>
                     </div>
                     <div className="flex flex-wrap justify-center gap-3">
-                      {socials.map((s) => (
-                        <a
-                          key={s.name}
-                          href={s.href}
-                          target={s.href.startsWith('http') ? '_blank' : undefined}
-                          rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                          className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-purple-400/50 transition-colors text-sm font-mono"
-                        >
-                          {s.name} <span className="text-white/40">{s.handle}</span>
-                        </a>
-                      ))}
+                      {socials.map((s) => {
+                        if (s.qr) {
+                          return (
+                            <button
+                              key={s.name}
+                              type="button"
+                              onClick={() => setActiveQR(s)}
+                              className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-purple-400/50 transition-colors text-sm font-mono cursor-pointer"
+                            >
+                              {s.name} <span className="text-white/40">{s.handle}</span>
+                            </button>
+                          )
+                        }
+                        return (
+                          <a
+                            key={s.name}
+                            href={s.href}
+                            target={s.href?.startsWith('http') ? '_blank' : undefined}
+                            rel={s.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:border-purple-400/50 transition-colors text-sm font-mono"
+                          >
+                            {s.name} <span className="text-white/40">{s.handle}</span>
+                          </a>
+                        )
+                      })}
                     </div>
                   </div>
                 </motion.div>
@@ -239,6 +327,20 @@ export default function UniverseComm() {
             </AnimatePresence>
           )}
         </motion.div>
+
+        {/* 嵌套 modal：社交平台二维码（在通讯弹层之上，关闭后回到通讯弹层） */}
+        <AnimatePresence>
+          {activeQR && activeQR.qr && (
+            <SocialQRModal
+              qr={activeQR.qr}
+              name={activeQR.name}
+              handle={activeQR.handle}
+              appName={activeQR.appName ?? activeQR.name}
+              scanHint={activeQR.scanHint ?? ''}
+              onClose={() => setActiveQR(null)}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </SectionShell>
   )

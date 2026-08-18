@@ -39,3 +39,15 @@ coverage/
 # WorkBuddy
 .workbuddy/agents/
 .workbuddy/skills/
+
+# 隐私文件（含真实姓名/学校/电话，禁止进公开仓库）
+resume.doc
+resume.docx
+resume.pdf
+作品集网站.docx
+作品集网站.pdf
+数据25-4概率统计.docx
+数据25-4概率统计.pdf
+
+# 项目内部记忆（隐私/日志，不公开）
+.workbuddy/memory/
