@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { cosmicModules } from '@/data/cosmicModules'
-import ruizaiStar from '@/assets/03-ruizai-hood-up.png'
+import ruizaiStar from '@/assets/03-ruizai-hood-up.webp'
 
 // 轨道参数：行星更分散、椭圆更扁以横向填满屏幕
 // width% 为轨道水平直径，height% 为垂直直径（0.75 让星系横向展开）

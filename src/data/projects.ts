@@ -9,14 +9,14 @@ export interface Project {
 }
 
 // Vite 会自动处理这些 import 的路径（加上 base 前缀）
-import fairMirrorImg from '@/assets/FairMirror.png';
-import circuitAiStudioImg from '@/assets/circuit-ai-studio.png';
-import huiyanImg from '@/assets/huiyan.png';
-import connect6Img from '@/assets/connect6.png';
-import weatherImg from '@/assets/weather-query-application.png';
-import markdownImg from '@/assets/markdown-editor.png';
-import todoImg from '@/assets/to-do-list-app.png';
-import busSchedulingImg from '@/assets/bus-scheduling.png';
+import fairMirrorImg from '@/assets/FairMirror.webp';
+import circuitAiStudioImg from '@/assets/circuit-ai-studio.webp';
+import huiyanImg from '@/assets/huiyan.webp';
+import connect6Img from '@/assets/connect6.webp';
+import weatherImg from '@/assets/weather-query-application.webp';
+import markdownImg from '@/assets/markdown-editor.webp';
+import todoImg from '@/assets/to-do-list-app.webp';
+import busSchedulingImg from '@/assets/bus-scheduling.webp';
 
 export const projects: Project[] = [
   {
